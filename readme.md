@@ -19,7 +19,7 @@
   <li>Editing Recipes</li>
   <li>Recipe of the day which changes every 24hrs</li>
   <li>Themes [WIP]</li>
-  <l1>3 different Account tiers [WIP]</li>
+  <li>3 different Account tiers [WIP]</li>
   <li>Mobile responsive</li>
 </ul>
 
