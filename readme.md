@@ -7,7 +7,7 @@
 
 <p>The AI model used was the OpenAI GPT-4o mini</p>
 
-<p>This initial version was made in around 1 week. Stil; several features are WIP and will be added in the future</p>
+<p>This initial version was made in around 1 week. Still several features are WIP and will be added in the future</p>
 
 <h2>Key Features</h2>
 <ul>
