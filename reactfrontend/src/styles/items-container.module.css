@@ -1,0 +1,8 @@
+.itemscontainer{
+    width: 80vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}

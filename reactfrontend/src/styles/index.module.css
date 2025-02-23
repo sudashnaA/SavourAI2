@@ -1,0 +1,22 @@
+.infocontainer{
+    width: 60vw;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.infocontainer > p {
+    font-size: larger;
+}
+
+.linkcontainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+@media (max-width: 1000px) {
+    .infocontainer {
+        width: 80vw;
+    }
+}

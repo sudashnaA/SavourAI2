@@ -1,0 +1,19 @@
+.editrecipecontainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 16px;
+    font-size: large;
+}
+
+.editrecipe{
+    width: 35rem;
+    resize: none;
+}
+
+@media screen and (max-width: 450px) {
+    .editrecipe {
+      width:250px;
+    }
+}

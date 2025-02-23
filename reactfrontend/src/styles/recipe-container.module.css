@@ -1,0 +1,14 @@
+.recipecontainer{
+    margin: 0 auto;
+    width: 40rem;
+    background-color: rgb(220, 243, 169);
+    padding: 0.5rem;
+    border: 2px solid black;
+    text-align: center;
+}
+
+@media screen and (max-width: 450px) {
+    .recipecontainer {
+      width:300px;
+    }
+}
