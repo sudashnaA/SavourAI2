@@ -5,7 +5,7 @@ import ButtonContainer from "../components/ButtonContainer";
 import Form from "../components/Form";
 import FormErrors from "../components/FormErrors";
 import ItemsDisplay from "../components/ItemsDIsplay";
-import { handleClickItem, handleSelectAllButton } from "../util/sharedEventHandlers";
+import { handleClickItem, handleSelectAllButton, handleConfirmButton } from "../util/sharedEventHandlers";
 
 import axios from "axios";
 
@@ -38,21 +38,6 @@ const CollectionsPage = () => {
         setEventErrors(null);
     }
 
-    const handleConfirmDeleteButton = async () => {
-        try {
-            await axios.delete(import.meta.env.VITE_API_URL + `collections/many/[${deleteItems}]`, { headers: {
-                'Authorization': localStorage.getItem('jwt'),
-            }})
-            const filteredCollections = data.collections.filter(collection => !deleteItems.includes(collection.id));
-            setData({...data, collections: filteredCollections });
-        } catch (error) {
-            setEventErrors(error);
-        } finally {
-            setDeleteItems([]);
-            setDeleteMode(false);
-        }
-    }
-
     const handleNewCollection = async (e) => {
         e.preventDefault();
         setEventErrors(null);
@@ -78,8 +63,12 @@ const CollectionsPage = () => {
                 <button title={deleteMode ? "Cancel" : "Delete Collections"} onClick={handleDeleteModeButton}><img src={`/${(deleteMode ? "close-square" : "delete" )}-svgrepo-com.svg`} alt="Delete Collection Button"/></button>
                 { (deleteMode) && 
                 <>
-                    <button title={selectedAll ? "Select All" : "Deselect All"} onClick={() => handleSelectAllButton(selectedAll, setSelectedAll, setDeleteItems, data.collections)}><img src={`/${(selectedAll ? "all-layers" : "cancel-close-remove-app-dev-interface" )}-svgrepo-com.svg`} alt="Select All Button"/></button>
-                    <button title="Confirm Delete Collections" onClick={handleConfirmDeleteButton}><img src={'/tick-checkbox-svgrepo-com.svg'} alt="Confirm Delete Collections Button"/></button>
+                    <button title={selectedAll ? "Select All" : "Deselect All"} onClick={() => handleSelectAllButton(selectedAll, setSelectedAll, setDeleteItems, data.collections)}>
+                        <img src={`/${(selectedAll ? "all-layers" : "cancel-close-remove-app-dev-interface" )}-svgrepo-com.svg`} alt="Select All Button"/>
+                    </button>
+                    <button title="Confirm Delete Collections" onClick={() => handleConfirmButton(`collections/many/[${deleteItems}]`, deleteItems, setDeleteItems, data.collections, setData, setDeleteMode, "collections", "delete", setEventErrors)}>
+                        <img src={'/tick-checkbox-svgrepo-com.svg'} alt="Confirm Delete Collections Button"/>
+                    </button>
                 </>
                 }
             </ButtonContainer>

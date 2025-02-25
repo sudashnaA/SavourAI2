@@ -5,6 +5,7 @@ import FormErrors from "../components/FormErrors";
 import useGetData from "../util/useGetData";
 import ItemsDisplay from "../components/ItemsDIsplay";
 import ButtonContainer from "../components/ButtonContainer";
+import { handleSelectAllButton } from "../util/sharedEventHandlers";
 
 import axios from "axios";
 
@@ -30,16 +31,6 @@ const CollectionsAddPage = () => {
         }
     }
 
-    const handleSelectAllButton = () => {
-        setSelectedAll(!selectedAll);
-        if (selectedAll){
-            const allIds = data.recipes.map(recipe => recipe.id);
-            setSelectedItems(allIds);
-        } else {
-            setSelectedItems([]);
-        }
-    }
-
     const handleConfirmAddButton = async () => {
         try {
             await axios.post(import.meta.env.VITE_API_URL + `collections/${id}/collectionitems/`, {
@@ -61,8 +52,14 @@ const CollectionsAddPage = () => {
         <ItemsDisplay data={data.recipes} errors={errors} loading={loading} handleClickItem={handleClickItem} selectItems={selectedItems} eventErrors={eventErrors} title={`Add to Collection: ${data.title}`} emptymsg={"There are no recipes to add to this collection"}>
         <ButtonContainer>
             <button title="Return" onClick={() => navigate(`/collections/${id}`)}><img src={"/return-svgrepo-com.svg"} alt="Return Button"/></button>
-            <button title={selectedAll ? "Select All" : "Deselect All"} onClick={handleSelectAllButton}><img src={`/${(selectedAll ? "all-layers" : "cancel-close-remove-app-dev-interface" )}-svgrepo-com.svg`} alt="Select All Button"/></button>
-            {itemSelected && <button title="Confirm Add Collection Items" onClick={handleConfirmAddButton}><img src={'/tick-checkbox-svgrepo-com.svg'} alt="Confirm Add Collection items Button"/></button>}
+            <button title={selectedAll ? "Select All" : "Deselect All"} onClick={() => handleSelectAllButton(selectedAll, setSelectedAll, setSelectedItems, data.recipes)}>
+                <img src={`/${(selectedAll ? "all-layers" : "cancel-close-remove-app-dev-interface" )}-svgrepo-com.svg`} alt="Select All Button"/>
+            </button>
+            {itemSelected && 
+                <button title="Confirm Add Collection Items" onClick={handleConfirmAddButton}>
+                    <img src={'/tick-checkbox-svgrepo-com.svg'} alt="Confirm Add Collection items Button"/>
+                </button>
+            }
          </ButtonContainer>
 
         {(eventErrors) && ( eventErrors.status === 400 ? <FormErrors errors={eventErrors.response.data.errors}/> : <h2>A network error was encountered</h2>)}
