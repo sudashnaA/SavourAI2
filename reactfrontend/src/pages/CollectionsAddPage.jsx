@@ -1,7 +1,7 @@
-import mainstyle from "../styles/main.module.css";
+import MainContainer from "../components/MainContainer";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import FormErrors from "../components/FormErrors";
+import EventErrorsDisplay from "../components/EventErrorsDisplay";
 import useGetData from "../util/useGetData";
 import ItemsDisplay from "../components/ItemsDIsplay";
 import ButtonContainer from "../components/ButtonContainer";
@@ -48,7 +48,7 @@ const CollectionsAddPage = () => {
     }
 
     return(
-    <div className={mainstyle.container}>
+    <MainContainer>
         <ItemsDisplay data={data.recipes} errors={errors} loading={loading} handleClickItem={handleClickItem} selectItems={selectedItems} eventErrors={eventErrors} title={`Add to Collection: ${data.title}`} emptymsg={"There are no recipes to add to this collection"}>
         <ButtonContainer>
             <button title="Return" onClick={() => navigate(`/collections/${id}`)}><img src={"/return-svgrepo-com.svg"} alt="Return Button"/></button>
@@ -62,9 +62,9 @@ const CollectionsAddPage = () => {
             }
          </ButtonContainer>
 
-        {(eventErrors) && ( eventErrors.status === 400 ? <FormErrors errors={eventErrors.response.data.errors}/> : <h2>A network error was encountered</h2>)}
+        <EventErrorsDisplay eventErrors={eventErrors} />
         </ItemsDisplay>
-    </div>
+    </MainContainer>
     )
 }
 

@@ -1,8 +1,8 @@
-import mainstyle from "../styles/main.module.css";
+import MainContainer from "../components/MainContainer";
 import RecipeContainer from "../components/RecipeContainer";
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
-import FormErrors from "../components/FormErrors";
+import EventErrorsDisplay from "../components/EventErrorsDisplay";
 import useGetData from "../util/useGetData";
 import Recipe from "../components/Recipe";
 import EditRecipe from "../components/EditRecipe";
@@ -77,13 +77,13 @@ const SavedRecipeViewPage = () => {
     }
 
     return(
-    <div className={mainstyle.container}>
+    <MainContainer>
 
         { (loading) ? <Loader/>
         : (errors) ? ((errors.status === 404) ? <h2>Recipe not found</h2> : <h2>A network error was encountered</h2>) 
         :
         <>
-            {(eventErrors) && ( eventErrors.status === 400 ? <FormErrors errors={eventErrors.response.data.errors}/> : <h2>Error Deleting Recipe</h2>)}
+            <EventErrorsDisplay eventErrors={eventErrors}/>
             <ButtonContainer>
                 <button title="Return" onClick={handleReturnButton}><img src = "/return-svgrepo-com.svg" alt="Return Button"/></button>
                 <button title="Delete Recipe" onClick={handleDeleteButton}><img src = "/delete-svgrepo-com.svg" alt="Delete Recipe Button"/></button>
@@ -107,7 +107,7 @@ const SavedRecipeViewPage = () => {
             </RecipeContainer>
         </>
         }
-    </div>
+    </MainContainer>
     )
 }
 

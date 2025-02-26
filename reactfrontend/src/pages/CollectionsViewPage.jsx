@@ -1,11 +1,12 @@
-import mainstyle from "../styles/main.module.css";
+import MainContainer from "../components/MainContainer";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import useGetData from "../util/useGetData";
 import ItemsDisplay from "../components/ItemsDIsplay";
-import FormErrors from "../components/FormErrors";
-import Form from "../components/Form";
+import EventErrorsDisplay from "../components/EventErrorsDisplay";
+import CollectionsForm from "../components/CollectionsForm";
 import ButtonContainer from "../components/ButtonContainer";
+import { handleSelectAllButton, handleModeButton } from "../util/sharedEventHandlers";
 
 import axios from "axios";
 
@@ -36,25 +37,14 @@ const CollectionsViewPage = () => {
         }
     }
 
-    const handleSelectAllButton = () => {
-        setSelectedAll(!selectedAll);
-        if (selectedAll){
-            const allIds = data.collectionitems.map(collection => collection.id);
-            setRemoveItems(allIds);
-        } else {
-            setRemoveItems([]);
-        }
+    const handleEditModeButton = () => {
+        setEditMode(!editMode);
+        setRemoveMode(false);
+        setEventErrors(null);
     }
 
     const handleAddButton = () => {
         navigate(`/collections/${id}/add`);
-    }
-
-    const handleRemoveModeButton = () => {
-        setRemoveItems([]);
-        setRemoveMode(!removeMode);
-        setSelectedAll(true);
-        setEventErrors(null);
     }
 
     const handleConfirmRemoveModeButton = async () => {
@@ -93,29 +83,30 @@ const CollectionsViewPage = () => {
     }
 
     return(
-    <div className={mainstyle.container}>
+    <MainContainer>
         <ItemsDisplay data={data.collectionitems} errors={errors} loading={loading} handleClickItem={handleClickItem} selectItems={removeItems} eventErrors={eventErrors} title={`Collection: ${data.collectiontitle}`} emptymsg={"There are no items in this collection"}>
             <ButtonContainer>
                 <button title="Return" onClick={() => navigate(`/collections/`)}><img src={"/return-svgrepo-com.svg"} alt="Return Button"/></button>
-                <button title="Edit" onClick={() => setEditMode(!editMode)}><img src={"/new-svgrepo-com.svg"} alt="Edit Button"/></button>
+                <button title="Edit" onClick={handleEditModeButton}><img src={"/new-svgrepo-com.svg"} alt="Edit Button"/></button>
                 <button title="Add to Collection" onClick={handleAddButton}><img src="/add-square-svgrepo-com.svg" alt="Add to Collection Button"/></button>
-                <button title={removeMode ? "Cancel" : "Remove Collection Items"} onClick={handleRemoveModeButton}><img src={`/${(removeMode ? "close-square" : "remove-square" )}-svgrepo-com.svg`} alt="Remove Collection Items Button"/></button>
+                <button title={removeMode ? "Cancel" : "Remove Collection Items"} onClick={() => handleModeButton(setRemoveItems, setRemoveMode, removeMode, setSelectedAll, setEventErrors)}>
+                    <img src={`/${(removeMode ? "close-square" : "remove-square" )}-svgrepo-com.svg`} alt="Remove Collection Items Button"/>
+                </button>
                 { (removeMode) && 
                 <>
-                    <button title={selectedAll ? "Select All" : "Deselect All"} onClick={handleSelectAllButton}><img src={`/${(selectedAll ? "all-layers" : "cancel-close-remove-app-dev-interface" )}-svgrepo-com.svg`} alt="Select All Button"/></button>
-                    <button title="Confirm Remove Collection Items" onClick={handleConfirmRemoveModeButton}><img src={'/tick-checkbox-svgrepo-com.svg'} alt="Confirm Remove Collection Items Button"/></button>
+                    <button title={selectedAll ? "Select All" : "Deselect All"} onClick={() => handleSelectAllButton(selectedAll, setSelectedAll, setRemoveItems, data.collectionitems)}>
+                        <img src={`/${(selectedAll ? "all-layers" : "cancel-close-remove-app-dev-interface" )}-svgrepo-com.svg`} alt="Select All Button"/>
+                    </button>
+                    <button title="Confirm Remove Collection Items" onClick={handleConfirmRemoveModeButton}>
+                        <img src={'/tick-checkbox-svgrepo-com.svg'} alt="Confirm Remove Collection Items Button"/>
+                    </button>
                 </>
                 }
             </ButtonContainer>
-            { editMode &&
-                <Form handleSubmit={handleEditCollection}>
-                    <div><input required onChange={(e) => setNewCollectionTitle(e.target.value)} type="text" placeholder="Enter New Title"></input> <input type="submit" value="Submit"></input></div>
-                </Form>
-            }
-
-            {(eventErrors) && ( eventErrors.status === 400 ? <FormErrors errors={eventErrors.response.data.errors}/> : <h2>A network error was encountered</h2>)}
+            <CollectionsForm mode={editMode} onSubmit={handleEditCollection} setTitle={setNewCollectionTitle} buttonVal={"Edit"}/>
+            <EventErrorsDisplay eventErrors={eventErrors} />
         </ItemsDisplay>
-    </div>
+    </MainContainer>
     )
 }
 

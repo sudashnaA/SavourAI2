@@ -47,3 +47,28 @@
     background-color: black;
     color: white;
 }
+
+/* For dark mode */
+.dark > .sidebar {
+    background-color: black;
+}
+
+.dark > .sidebar > p {
+    color: white;
+}
+
+.dark > .openbtn{
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 4px;
+}
+
+.dark > .sidebar > p:hover {
+    background-color: white;
+    color: black;
+}
+
+.dark > .sidebar > .active {
+    color: black;
+}

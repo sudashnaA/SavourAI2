@@ -18,7 +18,7 @@
   <li>Collections of recipes</li>
   <li>Editing Recipes</li>
   <li>Recipe of the day which changes every 24hrs</li>
-  <li>Themes [WIP]</li>
+  <li>Dark Mode</li>
   <li>3 different Account tiers [WIP]</li>
   <li>Mobile responsive</li>
 </ul>

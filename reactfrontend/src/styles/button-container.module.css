@@ -9,3 +9,13 @@
     height: 30px;
     width: 30px;
 }
+
+.dark > button{
+    background-color: #131313;
+    padding: 6px;
+    border: none;
+}
+
+.dark > button > img {
+    filter: invert(100%) sepia(100%) saturate(2%) hue-rotate(15deg) brightness(103%) contrast(101%);
+}

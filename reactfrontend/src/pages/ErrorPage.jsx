@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styles from "../styles/main.module.css"
+import MainContainer from "../components/MainContainer";
 import SideBar from "../components/SideBar";
 
 const ErrorPage = () => {
@@ -7,12 +7,12 @@ const ErrorPage = () => {
   return (
     <>
     {LoggedIn && <SideBar />}
-    <div className={styles.container}>
+    <MainContainer>
       <h1>Oh no, this route doesn't exist!</h1>
       <Link to="/">
         <p>Return</p>
       </Link>
-    </div>
+    </MainContainer>
     </>
   );
 };

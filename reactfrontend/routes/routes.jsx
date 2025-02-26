@@ -7,12 +7,14 @@ import GeneratePage from "../src/pages/GeneratePage";
 import SavedRecipePage from "../src/pages/SavedRecipePage";
 import SavedRecipeViewPage from "../src/pages/SavedRecipeViewPage";
 import CollectionsPage from "../src/pages/CollectionsPage";
-import Logout from "../src/pages/Logout";
-import SideBar from "../src/components/SideBar";
-import PrivateRoute from "./PrivateRoute";
 import CollectionsViewPage from "../src/pages/CollectionsViewPage";
 import CollectionsAddPage from "../src/pages/CollectionsAddPage";
 import RecipeOfTheDayPage from "../src/pages/RecipeOfTheDayPage";
+import SettingsPage from "../src/pages/SettingsPage";
+
+import Logout from "../src/pages/Logout";
+import SideBar from "../src/components/SideBar";
+import PrivateRoute from "./PrivateRoute";
 
 const routes = [
   {
@@ -59,6 +61,10 @@ const routes = [
   {
     path: "/recipeoftheday/",
     element: <PrivateRoute><SideBar /><RecipeOfTheDayPage /> </PrivateRoute>
+  },
+  {
+    path: "/settings",
+    element: <PrivateRoute><SideBar /><SettingsPage /></PrivateRoute>
   },
   {
     path: "/logout",

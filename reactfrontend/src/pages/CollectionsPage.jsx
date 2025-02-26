@@ -1,11 +1,11 @@
-import mainstyle from "../styles/main.module.css";
 import { useState } from "react";
+import MainContainer from "../components/MainContainer";
 import useGetData from "../util/useGetData";
 import ButtonContainer from "../components/ButtonContainer";
-import Form from "../components/Form";
-import FormErrors from "../components/FormErrors";
+import CollectionsForm from "../components/CollectionsForm";
+import EventErrorsDisplay from "../components/EventErrorsDisplay";
 import ItemsDisplay from "../components/ItemsDIsplay";
-import { handleClickItem, handleSelectAllButton, handleConfirmButton } from "../util/sharedEventHandlers";
+import { handleClickItem, handleSelectAllButton, handleConfirmDeleteButton } from "../util/sharedEventHandlers";
 
 import axios from "axios";
 
@@ -56,7 +56,7 @@ const CollectionsPage = () => {
     }
 
     return(
-    <div className={mainstyle.container}>
+    <MainContainer>
         <ItemsDisplay data={data.collections} errors={errors} loading={loading} handleClickItem={handleClickItem("/collections/", deleteMode, deleteItems, setDeleteItems)} selectItems={deleteItems} title={"Collections"} emptymsg={"You do not have any collections"}>
             <ButtonContainer>
                 <button title="Create Collection" onClick={handleCreateModeButton}><img src={`/${(createMode ? "close-square" : "add-square" )}-svgrepo-com.svg`} alt="Create Collection Button"/></button>
@@ -66,20 +66,16 @@ const CollectionsPage = () => {
                     <button title={selectedAll ? "Select All" : "Deselect All"} onClick={() => handleSelectAllButton(selectedAll, setSelectedAll, setDeleteItems, data.collections)}>
                         <img src={`/${(selectedAll ? "all-layers" : "cancel-close-remove-app-dev-interface" )}-svgrepo-com.svg`} alt="Select All Button"/>
                     </button>
-                    <button title="Confirm Delete Collections" onClick={() => handleConfirmButton(`collections/many/[${deleteItems}]`, deleteItems, setDeleteItems, data.collections, setData, setDeleteMode, "collections", "delete", setEventErrors)}>
+                    <button title="Confirm Delete Collections" onClick={() => handleConfirmDeleteButton(`collections/many/[${deleteItems}]`, deleteItems, setDeleteItems, data.collections, setData, setDeleteMode, "collections", setEventErrors)}>
                         <img src={'/tick-checkbox-svgrepo-com.svg'} alt="Confirm Delete Collections Button"/>
                     </button>
                 </>
                 }
             </ButtonContainer>
-            { createMode &&
-                <Form handleSubmit={handleNewCollection}>
-                <div><input required onChange={(e) => setNewCollectionTitle(e.target.value)} type="text" placeholder="Enter Title"></input> <input type="submit" value="Create"></input></div>
-                </Form>
-            }
-            {(eventErrors) && ( eventErrors.status === 400 ? <FormErrors errors={eventErrors.response.data.errors}/> : <h2>A network error was encountered</h2>)}
+            <CollectionsForm mode={createMode} onSubmit={handleNewCollection} setTitle={setNewCollectionTitle} buttonVal={"Create"} />
+            <EventErrorsDisplay eventErrors={eventErrors} />
         </ItemsDisplay>
-    </div>
+    </MainContainer>
     )
 }
 

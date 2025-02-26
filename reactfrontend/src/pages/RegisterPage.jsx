@@ -1,4 +1,4 @@
-import mainstyle from "../styles/main.module.css";
+import MainContainer from "../components/MainContainer";
 import style from "../styles/login-register.module.css";
 import Form from "../components/Form";
 import FormErrors from "../components/FormErrors";
@@ -38,7 +38,7 @@ const RegisterPage = () => {
     }
 
     return (
-        <div className={mainstyle.container}>
+        <MainContainer>
             <h1>Register</h1>
             {formErrors && <FormErrors errors={formErrors} />}
             {(registered && !errors) && <ul><li className={style.success}>Successfully Registered</li></ul>}
@@ -59,7 +59,7 @@ const RegisterPage = () => {
             </Form>
             {errors && <p>A network error was encountered</p>}
             <Link className={style.link} to="/login">Already have an account?</Link>
-        </div>
+        </MainContainer>
     )
 }
 

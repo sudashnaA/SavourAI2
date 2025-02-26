@@ -1,10 +1,10 @@
-import mainstyle from "../styles/main.module.css";
+import MainContainer from "../components/MainContainer";
 import indexstyle from '../styles/index.module.css';
 import { Link } from "react-router-dom";
 
 const IndexPage = () => {
     return (
-        <div className={mainstyle.container}>
+        <MainContainer >
             <div className={indexstyle.infocontainer}>
                 <h1>Welcome to SavourAI</h1>
                 <p>
@@ -18,7 +18,7 @@ const IndexPage = () => {
                     <p><Link to="/login">Login</Link></p>
                     <p> <Link to="/register">Register</Link></p>
             </div>
-        </div>
+        </MainContainer>
     )
 }
 

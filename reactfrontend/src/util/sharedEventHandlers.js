@@ -53,10 +53,10 @@ const handleSelectAllButton = (selectedAll, setSelectedAll, setSelectedItems, da
     }
 }
 
-// Will send a req to the server with the selectedItems to do an action eg DELETE
-const handleConfirmButton = async (url, selectedItems, setSelectedItems, data, setData, setSelectMode, type, req, setEventErrors) => {
+// Will send a req to the server with the selectedItems to delete the items
+const handleConfirmDeleteButton = async (url, selectedItems, setSelectedItems, data, setData, setSelectMode, type, setEventErrors) => {
     try {
-        await axios[req](import.meta.env.VITE_API_URL + url, { headers: {
+        await axios.delete(import.meta.env.VITE_API_URL + url, { headers: {
             'Authorization': localStorage.getItem('jwt'),
         }})
         const filtereditems = data.filter(item => !selectedItems.includes(item.id));
@@ -79,4 +79,4 @@ const handleModeButton = (setItems, setMode, mode, setSelectedAll, setEventError
 }
 
 
-export { handleSaveRecipe, handleClickItem, handleSelectAllButton, handleConfirmButton, handleModeButton }
+export { handleSaveRecipe, handleClickItem, handleSelectAllButton, handleConfirmDeleteButton, handleModeButton }

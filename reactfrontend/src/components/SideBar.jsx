@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import darkModeContext from "../context/darkModeContext";
 import NavItem from "./NavItem";
 import styles from "../styles/sidebar.module.css"
 
 const SideBar = () => {
+    const {darkMode} = useContext(darkModeContext);
     const navigate = useNavigate();
     const [lastClicked, setLastClicked] = useState('');
     const [open, setOpen] = useState(false);
@@ -19,7 +21,7 @@ const SideBar = () => {
     }
 
     return(
-        <div id="sidebarcontainer">
+        <div id="sidebarcontainer" className={`${darkMode && styles.dark}`}>
         <div id="sidebar" className={`${styles.sidebar} ${open ? styles.open : styles.closed}`}>
             <p onClick={handleOpen} className={styles.closebtn}>&times;</p>
             <NavItem url={"/home"} text={"Home"} lastClicked={lastClicked} handleClick={handleClick}/>

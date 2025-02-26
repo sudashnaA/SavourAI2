@@ -1,11 +1,11 @@
-import mainstyle from "../styles/main.module.css";
+import MainContainer from "../components/MainContainer";
 import Form from "../components/Form"
 import RecipeContainer from "../components/RecipeContainer";
 import Recipe from "../components/Recipe";
 import ButtonContainer from "../components/ButtonContainer";
 import { useState } from "react";
 import axios from "axios";
-import FormErrors from "../components/FormErrors";
+import EventErrorsDisplay from "../components/EventErrorsDisplay";
 import Loader from "../components/Loader";
 import { handleSaveRecipe } from "../util/sharedEventHandlers";
 
@@ -69,7 +69,7 @@ const GeneratePage = () => {
     }
 
     return(
-    <div className={mainstyle.container}>
+    <MainContainer>
         <h1>Generate Recipe:</h1>
         <Form handleSubmit={handleSubmit}>
             <label> Ingredients: <input type="text" value={ingredients} disabled={submitted ? true : false} required onChange={(e) => setIngredients(e.target.value)}></input></label>
@@ -91,9 +91,9 @@ const GeneratePage = () => {
             <label> Requests:&nbsp;&nbsp;&nbsp; <input type="text" value={requests} disabled={submitted ? true : false} onChange={(e) => setRequests(e.target.value)}></input></label>
             <input type="submit" disabled={submitted ? true : false} value={"Generate Recipe"}></input>
         </Form>
-        {loading ? <Loader /> :
-        errors ? ( errors.status === 400 ? <FormErrors errors={errors.response.data.errors} /> : <h2>A network error was encountered</h2>) :
-        submitted && (
+        {loading && <Loader />}
+        {<EventErrorsDisplay eventErrors={errors} />}
+        {submitted && (
         <RecipeContainer>
             <Recipe recipe={generatedRecipe} generated={true} />
             <ButtonContainer>
@@ -103,7 +103,7 @@ const GeneratePage = () => {
         </RecipeContainer>
         )
         }
-    </div>
+    </MainContainer>
     )
 }
 
