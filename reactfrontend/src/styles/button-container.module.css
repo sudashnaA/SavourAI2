@@ -10,10 +10,19 @@
     width: 30px;
 }
 
-.dark > button{
-    background-color: #131313;
+.buttoncontainer > button {
     padding: 6px;
     border: none;
+    background-color: whitesmoke;
+    transition: 0.2s;
+}
+
+button:hover{
+    filter: brightness(60%);
+}
+
+.dark > button{
+    background-color: #131313;
 }
 
 .dark > button > img {

@@ -10,10 +10,10 @@ function issueJWT(user) {
 
   const payload = {
     sub: id,
-    iat: Date.now()
+    iat: Date.now() / 1000
   };
 
-  const signedToken = jsonwebtoken.sign(payload, process.env.SECRET, { expiresIn: expiresIn});
+  const signedToken = jsonwebtoken.sign(payload, process.env.SECRET, {expiresIn: expiresIn});
 
   return {
     token: "Bearer " + signedToken,

@@ -2,7 +2,6 @@ const prisma = require("../model/prisma.js");
 const passport = require('passport');
 const expressAsyncHandler = require('express-async-handler');
 
-const { CustomBadRequestError, CustomNotFoundError } = require("../errors/errors.js");
 const { checkValidators, validateIdParam, checkIfItemExists } = require("../lib/utils.js");
 const { unlink } = require("../routes/collectionitems.js");
 

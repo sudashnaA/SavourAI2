@@ -1,11 +1,18 @@
 const bcrypt = require('bcryptjs');
 const prisma = require("../model/prisma");
+const passport = require('passport');
 const utils = require('../lib/jwt');
 const expressAsyncHandler = require('express-async-handler');
 
 const { CustomBadRequestError } = require("../errors/errors");
 const { validateLogin, validateUser } = require("../lib/accountsvalidators.js");
 const { checkValidators } = require("../lib/utils.js");
+
+module.exports.validateUser = [passport.authenticate("jwt", {session: false}), expressAsyncHandler(async (req, res) => {
+    res.status(200).json({
+        success: true,
+    })
+})];
 
 module.exports.loginUser = [validateLogin, checkValidators, expressAsyncHandler(async (req, res) => {
     const user = await prisma.user.findUnique({

@@ -1,0 +1,10 @@
+.item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.item > label{
+    font-size: larger;
+}

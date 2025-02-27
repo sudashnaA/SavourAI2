@@ -1,10 +1,14 @@
 import { Navigate } from "react-router-dom";
+import axios from "axios";
+import useGetData from "../src/util/useGetData";
+
 
 const PrivateRoute = ({ children }) => {
-    const notLoggedIn = localStorage.getItem('jwt') === 'null';
+    const { errors, loading } = useGetData("account/validate/");
     return(
-        (notLoggedIn) ? <Navigate to="/" />
-        :  <>{ children }</>
+        <>
+            {(!loading) && ((errors) ? <Navigate to="/" /> : <>{ children }</>)}
+        </>
     );
 }
 

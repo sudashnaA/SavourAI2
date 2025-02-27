@@ -1,0 +1,7 @@
+.dark{
+    color: rgb(213, 255, 121);
+}
+
+.dark:hover{
+    color: rgb(0, 72, 255);
+}

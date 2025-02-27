@@ -1,4 +1,5 @@
 import Switch from "../components/Switch";
+import SettingsItem from "../components/SettingsItem";
 import darkModeContext from "../context/darkModeContext";
 import MainContainer from "../components/MainContainer";
 import { useContext } from "react";
@@ -13,9 +14,9 @@ const SettingsPage = () => {
     return(
         <MainContainer>
             <h1>Settings:</h1>
-            <div>
-                <label> Theme: <Switch on={Boolean(darkMode)} setOn={handleSwitch} /></label>
-            </div>
+            <SettingsItem>
+                <label>Dark Mode:</label><Switch on={Boolean(darkMode)} setOn={handleSwitch} />
+            </SettingsItem>
         </MainContainer>
     )
 }

@@ -25,6 +25,10 @@
 .openbtn{
     position: fixed;
     top: 50%;
+    border: none;
+    padding: 7px;
+    background-color: rgb(226, 226, 226);
+    color: black;
 }
 
 /* Sidebar links */
@@ -58,10 +62,8 @@
 }
 
 .dark > .openbtn{
-    background-color: black;
-    border: none;
+    background-color: black;  
     color: white;
-    padding: 4px;
 }
 
 .dark > .sidebar > p:hover {
