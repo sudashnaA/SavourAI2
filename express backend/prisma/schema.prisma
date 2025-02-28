@@ -17,8 +17,10 @@ model User {
   id            Int      @id @default(autoincrement())
   username      String   @unique
   password      String
+  tier          Int      @default(1)
   recipes       Recipe[]
   collections   Collection[]
+  generations   Generation[]             
 }
 
 model Recipe {
@@ -45,4 +47,12 @@ model RecipeOfTheDay {
     title    String
     recipe   String
     date     DateTime    @default(now())
+}
+
+model Generation {
+  userid    Int
+  user      User      @relation(fields: [userid], references: [id])
+  date      DateTime  @default(now())
+
+  @@id([userid, date])
 }

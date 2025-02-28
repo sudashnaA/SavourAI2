@@ -1,17 +1,37 @@
 const prisma = require("../model/prisma.js");
 const passport = require('passport');
 const expressAsyncHandler = require('express-async-handler');
+const { CustomNotFoundError } = require("../errors/errors");
 
 const { checkValidators, validateIdParam, checkIfItemExists } = require("../lib/utils.js");
-const { unlink } = require("../routes/collectionitems.js");
 
-module.exports.addCollectionItems = [passport.authenticate('jwt', { session: false }), validateIdParam("id"), checkValidators, checkIfItemExists("collection"), expressAsyncHandler(async (req, res) => {
+const checkRecipeIdsExist = expressAsyncHandler(async (req, res, next) => {
+    let validIds = await prisma.recipe.findMany({
+        select: {
+            id: true,
+        },
+        where: {
+            userid: req.body.userid,
+        }
+    });
+    validIds = validIds.map(item => item.id);
+    const bodyIds = JSON.parse(req.body.recipeids)
+    bodyIds.forEach(id => {
+        if (!validIds.includes(id)){
+            throw new CustomNotFoundError("Recipe not found")
+        };
+    });
+    next();
+});
+
+module.exports.addCollectionItems = [passport.authenticate('jwt', { session: false }), validateIdParam("id"), checkValidators, checkIfItemExists("collection"), checkRecipeIdsExist, expressAsyncHandler(async (req, res) => {
     const recipeIds = JSON.parse(req.body.recipeids)
     
     recipeIds.forEach(async (recipeId) => {
         const collection = await prisma.collection.update({
             where: {
                 id: Number(req.params.id),
+                userid: req.user.id,
             },
             data: {
                 recipes: { 

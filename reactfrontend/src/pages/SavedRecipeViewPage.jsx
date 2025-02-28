@@ -1,4 +1,5 @@
 import MainContainer from "../components/MainContainer";
+import RecipeTitle from "../components/RecipeTitle";
 import RecipeContainer from "../components/RecipeContainer";
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
@@ -98,7 +99,7 @@ const SavedRecipeViewPage = () => {
                 {(!editMode) 
                 ?
                 <>
-                    <h2>{data.recipe.title}</h2>
+                    <RecipeTitle><h2>{data.recipe.title}</h2></RecipeTitle>
                     <Recipe recipe={data.recipe.recipe} generated={false}/>
                 </>
                 :

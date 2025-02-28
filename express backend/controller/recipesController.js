@@ -2,7 +2,7 @@ const prisma = require("../model/prisma");
 const passport = require('passport');
 const expressAsyncHandler = require('express-async-handler');
 
-const { CustomBadRequestError, CustomNotFoundError } = require("../errors/errors");
+const { CustomNotFoundError, CustomUnauthorisedError } = require("../errors/errors");
 const { validateGeneratedRecipe, validateRecipe } = require("../lib/recipesvalidators.js");
 const { checkValidators, validateIdParam, checkIfItemExists } = require("../lib/utils.js");
 
@@ -12,7 +12,48 @@ const client = new OpenAI({
     apiKey: process.env['OPENAI_API_KEY']
 });
 
-module.exports.generateRecipe = [passport.authenticate('jwt', { session: false }), validateGeneratedRecipe, checkValidators, expressAsyncHandler(async (req, res) => {
+const checkUserLimits = expressAsyncHandler(async(req, res , next) => {
+    const start = new Date();
+    start.setUTCHours(0,0,0,0);
+    const end = new Date();
+    end.setUTCHours(23,59,59,999);
+
+    const generations = (await prisma.generation.findMany({
+        where: {
+            userid: req.body.userid,
+            date: {
+                lte: end,
+                gt: start,
+            },
+        }
+    })).length;
+
+    const userAccountTier = (await prisma.user.findUnique({
+        select: {
+            tier: true,
+        },
+        where: {
+            id: Number(req.user.id),
+        }
+    })).tier
+
+    let maxGenerations;
+    if (userAccountTier === 3){
+        maxGenerations = 20;
+    } else if (userAccountTier === 2){
+        maxGenerations = 10;
+    } else {
+        maxGenerations = 5;
+    }
+
+    if (generations >= maxGenerations){
+        throw new CustomUnauthorisedError("You have exceeded the limit of recipe generations for the day");
+    }
+
+    next();
+});
+
+module.exports.generateRecipe = [passport.authenticate('jwt', { session: false }), checkUserLimits, validateGeneratedRecipe, checkValidators, expressAsyncHandler(async (req, res) => {
     let prompt = `short output ${req.body.recipetype} recipe with a title that has ingredients ${req.body.ingredients}`
     if (req.body.requests.trim().length > 0){
         prompt += ` and is ${req.body.requests}`;
@@ -25,6 +66,12 @@ module.exports.generateRecipe = [passport.authenticate('jwt', { session: false }
 
     const output = chatCompletion.choices[0].message.content
     
+    await prisma.generation.create({
+        data: {
+            userid: Number(req.user.id),
+        }
+    })
+
     res.status(200).json({
         success: true,
         recipe: output,

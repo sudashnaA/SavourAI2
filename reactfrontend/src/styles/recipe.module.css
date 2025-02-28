@@ -1,23 +1,20 @@
-.output > div{
-    text-align: center;
+.output{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-.output > p {
-    padding-top: 1rem;
+p {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.output > div > h2{
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    font-size: 1.5rem;
-    font-weight: bold;
+.titlecontainer {
+    text-align: center;
 }
 
 h2{
-    margin: 0;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .typewriter{

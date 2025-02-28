@@ -1,5 +1,5 @@
 const { check, validationResult } = require("express-validator");
-const { CustomBadRequestError, CustomNotFoundError } = require("../errors/errors");
+const { CustomNotFoundError } = require("../errors/errors");
 const prisma = require("../model/prisma");
 const expressAsyncHandler = require("express-async-handler");
 

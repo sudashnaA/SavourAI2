@@ -17,6 +17,10 @@
     transition: 0.2s;
 }
 
+button:disabled{
+    filter: brightness(60%);
+}
+
 button:hover{
     filter: brightness(60%);
 }

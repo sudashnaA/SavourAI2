@@ -2,6 +2,7 @@ import useGetData from "../util/useGetData";
 import RecipeContainer from "../components/RecipeContainer";
 import MainContainer from "../components/MainContainer";
 import Recipe from "../components/Recipe";
+import RecipeTitle from "../components/RecipeTitle";
 import Loader from "../components/Loader";
 import ButtonContainer from "../components/ButtonContainer";
 import EventErrorsDisplay from "../components/EventErrorsDisplay";
@@ -26,7 +27,7 @@ const RecipeOfTheDayPage = () => {
                     <button onClick={() => handleSaveRecipe(data.recipe.recipe, setSaved, setEventErrors)} disabled={saved ? true : false} title="Save Recipe"><img src = "/save-floppy-svgrepo-com.svg" alt="Save Recipe Button"/></button>
                 </ButtonContainer>
                 <RecipeContainer>
-                    <h2>{data.recipe.title}</h2>
+                    <RecipeTitle><h2>{data.recipe.title}</h2></RecipeTitle>
                     <Recipe recipe={data.recipe.recipe} generated={false}/>
                 </RecipeContainer>
             </>

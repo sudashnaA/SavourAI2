@@ -11,14 +11,13 @@ const Recipe = ({recipe, generated}) => {
     
             if (firstChar === "*" || firstChar === "#")
             {
-                if (!generated && index === 0){
-                    return <div key={index}></div>
-                } else {
-                    return <h2 key={index}>{element.replace(/[+#*\n]|^\d+/g, " ")}</h2>
-                }
+                return(
+                    (!generated && index === 0) ? <div key={index}></div> : <div key={index} className={style.titlecontainer}><h2>{element.replace(/[+#*\n]|^\d+/g, " ")}</h2></div>
+                )
             }
             else{
-                return <p key={index}>{element.replace(/[+#*\n]|^\d+/g, " ")}</p>
+                const content = element.replace(/[+#*\n]|^\d+/g, " ");
+                return((index === recipe.length - 1) ? <div className={style.titlecontainer} key={index}><p>{content}</p></div> : <p key={index}>{content}</p>)
             }
         })
         return recipeitems;
